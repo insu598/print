@@ -1,0 +1,107 @@
+#include <stdio.h> // 잘 모르겠습니다.
+#include <stdlib.h> // 잘 모르겠습니다.
+#include <time.h> // 잘 모르겠습니다.
+
+int main(void) // 프로그램의 시작점
+{ //시작점
+    int ball[3]; //입력이 3를 준거다.
+    srand(time(NULL)); // 잘 모르겠습니다.
+
+    do { //동일한 코드를 특정 조건일때 반복한다.
+        ball[0] = rand() % 10; //0~9까지 랜덤한 숫자를 부여한다 // [수정함: 주석만 올바르게 수정]
+        ball[1] = rand() % 10; //0~9까지 랜덤한 숫자를 부여한다 // [수정함]
+        ball[2] = rand() % 10; //0~9까지 랜덤한 숫자를 부여한다 // [수정함]
+    } while (ball[0] == ball[1] || ball[0] == ball[2] || ball[1] == ball[2]); //서로 다른 숫자가 나올때까지 문한반복.
+     /*
+     printf("baseball : %d %d %d\n", ball[0], ball[1], ball[2]); 랜덤하게 만든 숫자를 3개를 보여준다. (답지)
+     */
+
+    int try_count = 0;   // 목적은 내가 몇번을 실행을 했는지 카운트 해준다.
+
+    while(1) // 무한 반복문 조건인 만족 할때까지 실행한다.
+    { //반복문 시작점
+        printf("\n==============================\n"); //현재 시도 횟수 시각화 출력
+        printf("   Try: %d / 10\n", try_count); // 위에 따로 카운트한 값을 시각화 출력
+        printf("==============================\n\n"); // 현재 시도 횟수 시각화 출력
+
+        int input[3]; //입력문을 3개를준다.
+        printf("Enter the first number: "); //값을 입력하라고 알려주는 안내문 역할
+        scanf("%d", &input[0]); //입력 0번에 값을 입력받는다.
+
+        printf("Enter the second number: "); //값을 입력하라고 알려주는 안내문 역할
+        scanf("%d", &input[1]); //입력 1번에 값을 입력받는다.
+
+        printf("Enter the third number: "); // 값을 입력하라고 알려주는 안내문 역할
+        scanf("%d", &input[2]); //입력 2번에 값을 입력받는다.
+
+        printf("input : %d %d %d\n", input[0], input[1], input[2]); //위에 입력한 값을 시각화 하여 출력한다.
+
+        try_count++; // 시도 횟수 증가
+
+        int strike_count = 0; // 스트라이크 카운트한다.
+        int ball_count = 0; // 볼을 카운트한다.
+        int out_count = 3; // 아웃을 카운트한다.
+
+    //-----------------------------
+    // Strike/Ball 중복 계산 방지 수정
+    //-----------------------------
+
+    if( ball[0] == input[0] ) // 서로 입력 위치가 동일할때 조건문
+    { // 시작
+        strike_count = strike_count + 1 ; // 서로 위치가 동일할때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 동일할때 out 카운트 -1 만큼 감소한다.
+    } // 종료
+    else if( ball[0] == input[1] || ball[0] == input[2] ) // [수정함: else if로 변경하여 Strike 중복 Ball 방지]
+    { // 시작
+        ball_count = ball_count + 1 ; // 서로 위치가 다를때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 다를때 카운트 -1 만큼 감소한다.
+    } //종료
+
+    if( ball[1] == input[1]) // 서로 입력 위치가 다를때 조건문
+    { // 시작
+        strike_count = strike_count + 1 ; // 서로 위치가 동일할때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 동일할때 out 카운트 -1 만큼 감소한다.
+    } // 종료
+    else if( ball[1] == input[0] || ball[1] == input[2] ) // [수정함: else if로 변경하여 Strike 중복 Ball 방지]
+    { // 시작
+        ball_count = ball_count + 1 ; // 서로 위치가 다를때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 다를때 카운트 -1 만큼 감소한다.
+    } // 종료
+
+    if( ball[2] == input[2]) // 서로 입력 위치가 동일할때 조건문
+    { //시작
+        strike_count = strike_count + 1 ; // 서로 위치가 동일할때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 동일할때 out 카운트 -1 만큼 감소한다.
+    } // 종료
+    }
+    else if( ball[2] == input[0] || ball[2] == input[1] ) // [수정함: else if로 변경하여 Strike 중복 Ball 방지]
+    { // 시작
+        ball_count = ball_count + 1 ; // 서로 위치가 다를때 카운트 +1 만큼 증가한다.
+        out_count = out_count - 1 ; // 서로 위치가 다를때 카운트 -1 만큼 감소한다.
+    } // 종료
+
+    //-----------------------------
+    // 여기까지 strike/ball 중복 계산 방지 로직 수정 완료
+    //-----------------------------
+
+    if( ball[0] == input[0] && ball[1] == input[1] && ball[2] == input[2] ) // 정답을 맞추면 출력한다.
+    {//시작
+        printf("Home Run~\n") ; // 위 조건을 만족할때 출력한다.
+        return 0; // 출력 후 종료
+    }//종료
+    else //거짓일때
+    {//시작
+        printf("%d Strike, %d Ball, %d Out\n", strike_count, ball_count, out_count) ; //위 조건을 만족 시 출력한다.
+    }//종료
+
+        if (try_count >= 10) // 트리가 10보다 크거나 같을때.
+        {//시작
+            printf("\n==============================\n"); // 위 조건을 만족하면 출력
+            printf("        Game Over!\n"); // 위 조건을 만족하면 출력
+            printf("==============================\n"); // 위 조건을 만족하면 출력
+            return 0; // 출력 후 종료한다.
+        }//종료
+    } // 문한 반복문 종료점
+
+    return 0; // 코드에 끝 지점
+} //종료점
